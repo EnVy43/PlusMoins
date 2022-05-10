@@ -1,0 +1,42 @@
+<div *ngIf="startGame; then templateGameStart else templateGameInit"></div>
+
+<ng-template #templateGameStart>
+<span class="badge" id="bgR">REGLES</span>
+
+<div id="regles">
+    <h5>RÉGLES</h5>
+    <br>
+    <p>
+        Les règles sont simples, il y a un nombre aléatoire entre 0 et 1000 à trouver chacun votre tour.
+        <br>
+        Une partie se divise en 5 manches dans lesquels vous aurez que 5 coups chacun pour trouver le chiffre, si personne ne trouve, une nouvelle manche se lance avec un nouveau chiffre à trouver.
+        Mais si l'un de vous trouve il remporte 1 point et une nouvelle manche debute alors, là aussi avec un nouveau chiffre est à trouvé ! Bonne chance.
+    </p>
+</div>
+    
+    <table><tr><td id="nameJ1">{{game.getJoueur1}}</td><td class="score">{{game.getScoreJ1}}</td><td id="point">:</td><td class="score"> {{game.getScoreJ2}}</td><td id="nameJ2">{{game.getJoueur2}}</td></tr></table>
+
+    <div *ngIf="!game.getEndGame;" id="game">
+        
+        <h3 *ngIf="!lastTour">TOUR n°:{{game.getTour}} de la MANCHE n°:{{game.getRound}}</h3>
+        <h3 *ngIf="lastTour">Dernier tour de la MANCHE n°:{{game.getRound}}</h3>
+
+        <div *ngIf="game.getTour %2 != 0">
+            <h4>Au tour de : <span id="j1">{{game.getJoueur1}}</span></h4>
+        </div>
+    
+        <div *ngIf="game.getTour % 2 == 0">
+            <h4>Au tour de : <span id="j2">{{game.getJoueur2}}</span></h4>
+        </div>
+
+        <input type="text" id="num" name="num" [(ngModel)]="reset" #chooseNumber oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+        <button type="submit" (click)="sendNumber(chooseNumber.value);">ESSAYER</button>
+    </div>
+
+    <button *ngIf="game.getEndGame;" (click)="restart()" class="endGame">REJOUER</button>
+    <button *ngIf="game.getEndGame;" (click)="changeName()" class="endGame">CHANGER NOM</button>
+</ng-template>
+
+<ng-template #templateGameInit>
+    <app-joueur (sendNameToGame)="nameJoueur($event);"></app-joueur>
+</ng-template>

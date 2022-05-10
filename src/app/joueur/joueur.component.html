@@ -1,0 +1,10 @@
+
+<form (submit)="sendName(); $event.preventDefault()">
+<input type="text" name="joueur1" id="jouer1" placeholder="Joueur1" (input)="setPlayer(0,$event)" maxlength="10">
+<br>
+<br>
+<input type="text" name="joueur2" id="jouer2" placeholder="Joueur2" (input)="setPlayer(1,$event)" maxlength="10">
+<br>
+<br>
+<input type="submit" value="VALIDER" [disabled]="!canSubmit">
+</form>
